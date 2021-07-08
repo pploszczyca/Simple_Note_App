@@ -1,5 +1,6 @@
 package com.example.simplenoteapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val noteItem: Note = arrayList?.get(position)!!
-        Toast.makeText(applicationContext, "Clicked note with title: ${noteItem.title}", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(applicationContext, "Clicked note with title: ${noteItem.title}", Toast.LENGTH_SHORT).show()
+
+        val intent: Intent = Intent(applicationContext, EditNote::class.java)
+        intent.putExtra("NOTE_ARGUMENT", noteItem)
+        startActivity(intent)
     }
 }
