@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleNoteApp">
         <activity android:name=".EditNote"></activity>
-        <activity android:name=".NoteEdit" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

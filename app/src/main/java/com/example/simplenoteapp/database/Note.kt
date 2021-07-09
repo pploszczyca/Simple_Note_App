@@ -8,10 +8,10 @@ import java.io.Serializable
 @Entity(tableName = "notes")
 data class Note(
     @ColumnInfo(name = "title")
-    var title: String,
+    var title: String = "",
 
     @ColumnInfo(name = "contents")
-    var contents: String,
+    var contents: String = "",
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

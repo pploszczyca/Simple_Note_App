@@ -6,40 +6,56 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
-import androidx.room.Room
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
+import com.example.simplenoteapp.database.NotesDao
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private var listView:ListView ? = null
     private var noteAdapters:NoteAdapters ? = null
     private var arrayList: List<Note> ? = null
+    private var notesDao: NotesDao ? = null
+    private var addNewNoteButton : FloatingActionButton ? = null
+
+    private fun refreshListView(): Unit {
+        arrayList = notesDao!!.getAll()
+        noteAdapters = NoteAdapters(applicationContext, arrayList!!)
+        listView?.adapter = noteAdapters
+    }
+
+    private fun startEditNoteActivity(noteToPass: Note): Unit {
+        val intent: Intent = Intent(applicationContext, EditNote::class.java)
+        intent.putExtra("NOTE_ARGUMENT", noteToPass)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "simple-notes-db"
-        ).allowMainThreadQueries().build()      // TODO: Change it to asynchronous
-        val notesDao = db.notesDao()
+        notesDao = AppDatabase.getInstance(applicationContext).notesDao()
 
-        SampleDataProvider.setSampleNotes(notesDao)
+        SampleDataProvider.setSampleNotes(notesDao!!)
 
         listView = findViewById(R.id.notesList)
-        arrayList = notesDao.getAll()
-        noteAdapters = NoteAdapters(applicationContext, arrayList!!)
-        listView?.adapter = noteAdapters
+        addNewNoteButton = findViewById(R.id.addNewNoteButton)
+
+        refreshListView()
         listView?.onItemClickListener = this
+
+        addNewNoteButton!!.setOnClickListener {
+            startEditNoteActivity(Note())
+        }
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val noteItem: Note = arrayList?.get(position)!!
+        startEditNoteActivity(arrayList?.get(position)!!)
+    }
 
-        val intent: Intent = Intent(applicationContext, EditNote::class.java)
-        intent.putExtra("NOTE_ARGUMENT", noteItem)
-        startActivity(intent)
+    override fun onRestart() {
+        super.onRestart()
+        refreshListView()
     }
 }
