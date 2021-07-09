@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.example.simplenoteapp.models.Note
+import com.example.simplenoteapp.database.Note
 
-class NoteAdapters(var context: Context, var arrayList: ArrayList<Note>) :BaseAdapter() {
+class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter() {
     override fun getCount(): Int {
         return arrayList.size
     }

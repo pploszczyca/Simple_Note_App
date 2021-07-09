@@ -2,7 +2,7 @@ package com.example.simplenoteapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.simplenoteapp.models.Note
+import com.example.simplenoteapp.database.Note
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 
