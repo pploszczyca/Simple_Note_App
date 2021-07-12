@@ -3,9 +3,11 @@ package com.example.simplenoteapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
+import android.widget.SearchView
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
 import com.example.simplenoteapp.database.NotesDao
@@ -57,5 +59,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onRestart() {
         super.onRestart()
         refreshListView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        val menuItem = menu!!.findItem(R.id.app_bar_search)
+        val searchView: SearchView = menuItem.actionView as SearchView
+        searchView.queryHint = "Search Here!"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                noteAdapters!!.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                noteAdapters!!.filter.filter(newText)
+                return true
+            }
+
+        })
+
+        return super.onCreateOptionsMenu(menu)
     }
 }

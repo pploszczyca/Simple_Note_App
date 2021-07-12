@@ -13,7 +13,8 @@
         android:hint="Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -31,7 +32,8 @@
         app:layout_constraintBottom_toTopOf="@+id/editSaveNoteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNoteTitle">
+        app:layout_constraintTop_toBottomOf="@+id/editNoteTitle"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

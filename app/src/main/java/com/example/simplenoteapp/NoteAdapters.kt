@@ -4,10 +4,14 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import com.example.simplenoteapp.database.Note
 
-class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter() {
+class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter(), Filterable {
+    private val arrayListCopy: List<Note> = arrayList
+
     override fun getCount(): Int {
         return arrayList.size
     }
@@ -31,6 +35,22 @@ class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter
         title.text = note.title
         contents.text = note.contents
 
-        return view!!
+        return view
+    }
+
+    override fun getFilter(): Filter = object :  Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val results = FilterResults()
+            results.values = if (constraint == null || constraint.isEmpty()) arrayListCopy else arrayListCopy.filter { it.title.contains(constraint, ignoreCase = true) }
+            results.count = arrayList.size
+
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            arrayList = results!!.values as List<Note>
+            notifyDataSetChanged()
+        }
     }
 }
+

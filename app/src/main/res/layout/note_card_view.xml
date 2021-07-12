@@ -6,7 +6,8 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:theme="@style/Theme.MaterialComponents.Light"
-    app:cardElevation="1dp">
+    app:cardElevation="1dp"
+    android:id="@+id/noteCard">
 
     <LinearLayout
         android:layout_width="match_parent"
