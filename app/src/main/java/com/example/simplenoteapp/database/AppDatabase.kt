@@ -13,11 +13,11 @@ abstract class AppDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
+        fun getInstance(context: Context?): AppDatabase {
             synchronized(this) {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(
-                        context,
+                        context!!,
                         AppDatabase::class.java, "simple-notes-db"
                     ).allowMainThreadQueries().build()
                 }

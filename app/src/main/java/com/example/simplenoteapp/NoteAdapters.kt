@@ -34,6 +34,7 @@ class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter
 
         title.text = note.title
         contents.text = note.contents
+        view.setBackgroundColor(note.color)
 
         return view
     }

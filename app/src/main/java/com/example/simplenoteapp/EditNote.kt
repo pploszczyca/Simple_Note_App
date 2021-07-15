@@ -44,7 +44,7 @@ class EditNote : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.edit_note_menu, menu)
         val showBottomButton = menu!!.findItem(R.id.editNoteShowBottomButton)
-        showBottomButton.isVisible = !(note!!.id == -1)     // hide if the new note is being created
+        showBottomButton.isVisible = !(note!!.id == 0)     // hide if the new note is being created
 
         showBottomButton.setOnMenuItemClickListener {
             val bottomSheet = EditNoteBottomSheetDialog()
