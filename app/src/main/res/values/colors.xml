@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="red_slider_main">#FF0000</color>
+    <color name="red_slider_second">#ff867c</color>
+    <color name="green_slider_main">#00FF00</color>
+    <color name="green_slider_second">#cfff95</color>
+    <color name="blue_slider_main">#0000FF</color>
+    <color name="blue_slider_second">#80d6ff</color>
+    
+    <color name="teal_primary">#37474f</color>
+    <color name="teal_dark">#102027</color>
+    <color name="pink_primary">#ff4081</color>
+    <color name="pink_dark">#c60055</color>
 </resources>

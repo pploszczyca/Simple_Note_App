@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SearchView
+import androidx.core.app.ActivityOptionsCompat
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
 import com.example.simplenoteapp.database.NotesDao
@@ -17,20 +18,19 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private var listView:ListView ? = null
     private var noteAdapters:NoteAdapters ? = null
-    private var arrayList: List<Note> ? = null
     private var notesDao: NotesDao ? = null
     private var addNewNoteButton : FloatingActionButton ? = null
 
     private fun refreshListView(): Unit {
-        arrayList = notesDao!!.getAll()
-        noteAdapters = NoteAdapters(applicationContext, arrayList!!)
+        noteAdapters = NoteAdapters(applicationContext, notesDao!!.getAll())
         listView?.adapter = noteAdapters
     }
 
-    private fun startEditNoteActivity(noteToPass: Note): Unit {
+    private fun startEditNoteActivity(noteToPass: Note, view: View?): Unit {
         val intent: Intent = Intent(applicationContext, EditNote::class.java)
         intent.putExtra("NOTE_ARGUMENT", noteToPass)
-        startActivity(intent)
+        val options = ActivityOptionsCompat.makeScaleUpAnimation(view!!, 0, 0, view!!.width, view!!.height).toBundle()
+        startActivity(intent, options)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +48,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         listView?.onItemClickListener = this
 
         addNewNoteButton!!.setOnClickListener {
-            startEditNoteActivity(Note())
+            startEditNoteActivity(Note(), it)
         }
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        startEditNoteActivity(arrayList?.get(position)!!)
+        startEditNoteActivity(noteAdapters!!.getItem(position) as Note, view)
     }
 
     override fun onRestart() {
@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                 noteAdapters!!.filter.filter(newText)
                 return true
             }
-
         })
 
         return super.onCreateOptionsMenu(menu)

@@ -4,23 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditNote">
+    tools:context=".EditNote"
+    android:id="@+id/note_edit">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editNoteTitle"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/title"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:inputType="textCapWords"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -28,19 +35,22 @@
         android:id="@+id/editNoteContents"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:hint="Contents"
+        android:hint="@string/contents"
         app:layout_constraintBottom_toTopOf="@+id/editSaveNoteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editNoteTitle"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        android:background="@android:color/transparent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top|left"
             android:maxLines="1000"
-            />
+            android:inputType="textMultiLine"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

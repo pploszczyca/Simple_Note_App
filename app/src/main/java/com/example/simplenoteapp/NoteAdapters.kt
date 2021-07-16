@@ -27,8 +27,8 @@ class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = View.inflate(context, R.layout.note_card_view, null)
 
-        val title: TextView = view.findViewById(R.id.noteTitle)
-        val contents: TextView = view.findViewById(R.id.contentsTitle)
+        val title: TextView = view.findViewById(R.id.note_title)
+        val contents: TextView = view.findViewById(R.id.contents_title)
 
         val note: Note = arrayList.get(position)
 

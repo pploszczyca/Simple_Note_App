@@ -8,11 +8,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.example.simplenoteapp.database.Note
 import com.google.android.material.slider.Slider
 
-class ColorPickerDialog(val note: Note): DialogFragment() {
+class ColorPickerDialog(private val note: Note): DialogFragment() {
     private var colorView: View ? = null
     private var redSlider: Slider ? = null
     private var greenSlider: Slider ? = null
@@ -38,18 +39,20 @@ class ColorPickerDialog(val note: Note): DialogFragment() {
         greenSlider = view.findViewById(R.id.green_color_picker)
         blueSlider = view.findViewById(R.id.blue_color_picker)
 
-        redSlider!!.addOnChangeListener(sliderChange)
-        greenSlider!!.addOnChangeListener(sliderChange)
-        blueSlider!!.addOnChangeListener(sliderChange)
-
-        redSlider!!.value = Color.red(note.color).toFloat()
-        blueSlider!!.value = Color.blue(note.color).toFloat()
-        greenSlider!!.value = Color.green(note.color).toFloat()
+        for((slider, colorValue) in arrayOf(
+            Pair(redSlider, Color.red(note.color).toFloat()),
+            Pair(greenSlider, Color.green(note.color).toFloat()),
+            Pair(blueSlider, Color.blue(note.color).toFloat()))
+        ){
+            slider!!.addOnChangeListener(sliderChange)
+            slider!!.value = colorValue
+        }
 
         builder.setView(view)
             .setPositiveButton("Set") {
                 _, _ ->
                 note.color = calculateHexColor()
+                activity?.findViewById<ConstraintLayout>(R.id.note_edit)?.setBackgroundColor(note.color)
             }
         return builder.create()
     }

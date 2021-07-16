@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Simple Note App</string>
+    <string name="title">Title</string>
+    <string name="contents">Contents</string>
+    <string name="save">Save</string>
 </resources>

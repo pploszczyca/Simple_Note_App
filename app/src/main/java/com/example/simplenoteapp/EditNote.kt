@@ -3,6 +3,7 @@ package com.example.simplenoteapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
 import com.example.simplenoteapp.database.NotesDao
@@ -16,6 +17,7 @@ class EditNote : AppCompatActivity() {
     private var saveButton: MaterialButton ? = null
     private var note: Note? = null
     private var notesDao: NotesDao? = null
+    private var mainLayout: ConstraintLayout ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,7 @@ class EditNote : AppCompatActivity() {
         editTitle = findViewById(R.id.editNoteTitle)
         editContents = findViewById(R.id.editNoteContents)
         saveButton = findViewById(R.id.editSaveNoteButton)
+        mainLayout = findViewById(R.id.note_edit)
 
         note = intent.getSerializableExtra("NOTE_ARGUMENT") as? Note
 
@@ -31,6 +34,7 @@ class EditNote : AppCompatActivity() {
 
         editTitle?.editText!!.setText(note?.title)
         editContents?.editText!!.setText(note?.contents)
+        mainLayout?.setBackgroundColor(note!!.color)
 
         saveButton?.setOnClickListener{
             note?.title = editTitle?.editText!!.text.toString()
@@ -44,7 +48,7 @@ class EditNote : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.edit_note_menu, menu)
         val showBottomButton = menu!!.findItem(R.id.editNoteShowBottomButton)
-        showBottomButton.isVisible = !(note!!.id == 0)     // hide if the new note is being created
+        showBottomButton.isVisible = (note!!.id != 0)     // hide if the new note is being created
 
         showBottomButton.setOnMenuItemClickListener {
             val bottomSheet = EditNoteBottomSheetDialog()

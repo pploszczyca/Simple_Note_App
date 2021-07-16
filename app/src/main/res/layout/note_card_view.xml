@@ -6,29 +6,31 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:theme="@style/Theme.MaterialComponents.Light"
-    app:cardElevation="1dp"
+    app:cardElevation="3dp"
     android:id="@+id/noteCard">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/noteTitle"
+            android:id="@+id/note_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="@string/title"
             android:textSize="20dp"
             android:textStyle="bold"
+            style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             />
 
         <TextView
-            android:id="@+id/contentsTitle"
+            android:id="@+id/contents_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Note contents"
+            android:text="@string/contents"
             android:textSize="14dp"
-            />
+            style="@style/TextAppearance.MaterialComponents.Body1" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -18,6 +18,12 @@
         android:valueFrom="0"
         android:valueTo="255"
         android:id="@+id/red_color_picker"
+        app:tickColor="@color/red_slider_main"
+        app:thumbColor="@color/red_slider_main"
+        app:trackColorActive="@color/red_slider_main"
+        app:trackColorInactive="@color/red_slider_second"
+        app:thumbStrokeColor="@color/red_slider_second"
+        app:haloColor="@color/red_slider_second"
         />
 
     <com.google.android.material.slider.Slider
@@ -27,6 +33,12 @@
         android:valueFrom="0"
         android:valueTo="255"
         android:id="@+id/green_color_picker"
+        app:tickColor="@color/green_slider_main"
+        app:thumbColor="@color/green_slider_main"
+        app:trackColorActive="@color/green_slider_main"
+        app:trackColorInactive="@color/green_slider_second"
+        app:thumbStrokeColor="@color/green_slider_second"
+        app:haloColor="@color/green_slider_second"
         />
 
     <com.google.android.material.slider.Slider
@@ -36,5 +48,11 @@
         android:valueFrom="0"
         android:valueTo="255"
         android:id="@+id/blue_color_picker"
+        app:tickColor="@color/blue_slider_main"
+        app:thumbColor="@color/blue_slider_main"
+        app:trackColorActive="@color/blue_slider_main"
+        app:trackColorInactive="@color/blue_slider_second"
+        app:thumbStrokeColor="@color/blue_slider_second"
+        app:haloColor="@color/blue_slider_second"
         />
 </LinearLayout>
