@@ -41,5 +41,16 @@
         app:icon = "@drawable/ic_baseline_color_lens"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editNotePinButton"
+        android:text="Pin to label"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:icon = "@drawable/ic_push_pin"
+        />
+
 
 </LinearLayout>

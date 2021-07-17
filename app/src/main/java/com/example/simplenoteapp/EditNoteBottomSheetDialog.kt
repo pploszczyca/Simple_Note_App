@@ -1,13 +1,18 @@
 package com.example.simplenoteapp
 
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
 import com.example.simplenoteapp.database.NotesDao
@@ -17,16 +22,28 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
     private var deleteButton: Button ? = null
     private var shareButton: Button ? = null
     private var pickColorButton: Button ? = null
+    private var pinButton: Button ? = null
     private var note: Note ?= null
     private var notesDao: NotesDao? = null
+
+    private fun createNotificationChannel(): Unit {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT)
+            val manager = context?.getSystemService(NotificationManager::class.java)
+            manager?.createNotificationChannel(channel)
+        }
+    }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.edit_note_bottom_sheet_layout, container, false)
         deleteButton = view.findViewById(R.id.editNoteDeleteButton)
         shareButton = view.findViewById(R.id.editNoteShareButton)
         pickColorButton = view.findViewById(R.id.editNotePickColorButton)
+        pinButton = view.findViewById(R.id.editNotePinButton)
         note = arguments?.getSerializable("note") as Note
         notesDao = AppDatabase.getInstance(requireContext()).notesDao()
+
+        createNotificationChannel()
 
         deleteButton!!.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -42,6 +59,7 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
                     dialog, id ->
             }
             builder.show()
+            dismiss()
         }
 
         shareButton!!.setOnClickListener {
@@ -53,6 +71,7 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+            dismiss()
         }
 
         pickColorButton!!.setOnClickListener {
@@ -60,6 +79,21 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
             colorPickerDialog.show(childFragmentManager, "MyFragment")
         }
 
+        pinButton!!.setOnClickListener {
+            val builder = NotificationCompat.Builder(requireContext(), "My Notification")
+                .setContentTitle(note!!.title)
+                .setContentText(note!!.contents)
+                .setSmallIcon(R.drawable.ic_push_pin)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText(note!!.contents))
+
+            with(NotificationManagerCompat.from(requireContext())) {
+                notify(1, builder.build())
+            }
+            dismiss()
+        }
         return view
     }
 }
