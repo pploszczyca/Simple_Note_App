@@ -52,5 +52,11 @@
         app:icon = "@drawable/ic_push_pin"
         />
 
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagsChipGroup">
+
+    </com.google.android.material.chip.ChipGroup>
 
 </LinearLayout>

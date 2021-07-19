@@ -8,9 +8,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import com.example.simplenoteapp.database.Note
+import com.example.simplenoteapp.database.NoteWithTags
 
-class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter(), Filterable {
-    private val arrayListCopy: List<Note> = arrayList
+class NoteAdapters(var context: Context, var arrayList: List<NoteWithTags>) :BaseAdapter(), Filterable {
+    private val arrayListCopy: List<NoteWithTags> = arrayList
 
     override fun getCount(): Int {
         return arrayList.size
@@ -30,11 +31,11 @@ class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter
         val title: TextView = view.findViewById(R.id.note_title)
         val contents: TextView = view.findViewById(R.id.contents_title)
 
-        val note: Note = arrayList.get(position)
+        val noteWithTags: NoteWithTags = arrayList.get(position)
 
-        title.text = note.title
-        contents.text = note.contents
-        view.setBackgroundColor(note.color)
+        title.text = noteWithTags.note.title
+        contents.text = noteWithTags.note.contents
+        view.setBackgroundColor(noteWithTags.note.color)
 
         return view
     }
@@ -42,14 +43,14 @@ class NoteAdapters(var context: Context, var arrayList: List<Note>) :BaseAdapter
     override fun getFilter(): Filter = object :  Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
-            results.values = if (constraint == null || constraint.isEmpty()) arrayListCopy else arrayListCopy.filter { it.title.contains(constraint, ignoreCase = true) }
+            results.values = if (constraint == null || constraint.isEmpty()) arrayListCopy else arrayListCopy.filter { noteWithTags -> noteWithTags.note.title.contains(constraint, ignoreCase = true) || noteWithTags.tags.map { it.name }.contains(constraint)}
             results.count = arrayList.size
 
             return results
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            arrayList = results!!.values as List<Note>
+            arrayList = results!!.values as List<NoteWithTags>
             notifyDataSetChanged()
         }
     }

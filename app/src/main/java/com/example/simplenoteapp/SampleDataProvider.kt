@@ -2,10 +2,11 @@ package com.example.simplenoteapp
 
 import com.example.simplenoteapp.database.Note
 import com.example.simplenoteapp.database.NotesDao
+import com.example.simplenoteapp.database.Tag
 
 object SampleDataProvider {
     fun setSampleNotes(notesDao: NotesDao): Unit{
-        if(notesDao.getAll().isEmpty()) {
+        if(notesDao.getAllNotesWithTags().isEmpty()) {
             notesDao.insert(notes = arrayOf(
                 Note("Test", "Is it working?"),
                 Note("Shopping", "Bread, butter, milk"),
@@ -16,6 +17,18 @@ object SampleDataProvider {
                         "\n"),
                 Note("Lorem Ipsum 2", "\n" +
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget ipsum accumsan, egestas lacus a, volutpat velit. Praesent quis porta est. Quisque pretium tortor sem, et rutrum ipsum tincidunt eu. Vestibulum suscipit erat eget nisl mattis imperdiet. In non turpis aliquam, finibus elit vel, facilisis sapien. Mauris congue, metus sit amet eleifend placerat, libero leo dignissim nibh, vitae molestie ipsum erat at lacus. Aenean odio diam, scelerisque vel felis non, hendrerit bibendum augue. Sed nec ligula eu sapien venenatis pharetra. Aenean at sollicitudin est. Integer id erat sit amet nunc dictum porta id ut tortor.")
+            ))
+        }
+    }
+
+    fun setSampleTags(notesDao: NotesDao): Unit {
+        if(notesDao.getAllTags().isEmpty()) {
+            notesDao.insert(tags = arrayOf(
+                Tag("Shop"),
+                Tag("School"),
+                Tag("Work"),
+                Tag("Entertainment"),
+                Tag("Check it later")
             ))
         }
     }

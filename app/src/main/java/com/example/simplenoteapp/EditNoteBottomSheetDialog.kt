@@ -15,14 +15,18 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Note
+import com.example.simplenoteapp.database.NoteTag
 import com.example.simplenoteapp.database.NotesDao
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
     private var deleteButton: Button ? = null
     private var shareButton: Button ? = null
     private var pickColorButton: Button ? = null
     private var pinButton: Button ? = null
+    private var tagsChipGroup: ChipGroup ? = null
     private var note: Note ?= null
     private var notesDao: NotesDao? = null
 
@@ -40,6 +44,7 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
         shareButton = view.findViewById(R.id.editNoteShareButton)
         pickColorButton = view.findViewById(R.id.editNotePickColorButton)
         pinButton = view.findViewById(R.id.editNotePinButton)
+        tagsChipGroup = view.findViewById(R.id.tagsChipGroup)
         note = arguments?.getSerializable("note") as Note
         notesDao = AppDatabase.getInstance(requireContext()).notesDao()
 
@@ -94,6 +99,26 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
             }
             dismiss()
         }
+
+        val tags = notesDao!!.getNoteWithTags(noteID = note!!.noteID).first().tags.map { it.tagID }.toSet()
+
+        for(tag in notesDao!!.getAllTags()) {
+            val chip = Chip(context)
+            chip.text = tag.name
+            chip.isCloseIconVisible = false
+            chip.isCheckable = true
+            chip.isClickable = true
+
+            if(tags.contains(tag.tagID))    chip.isChecked = true
+
+            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                val noteTag = NoteTag(noteID = note!!.noteID, tagID = tag.tagID)
+                if (isChecked) notesDao!!.insert(noteTag) else notesDao!!.delete(noteTag)
+            }
+
+            tagsChipGroup!!.addView(chip)
+        }
+
         return view
     }
 }
