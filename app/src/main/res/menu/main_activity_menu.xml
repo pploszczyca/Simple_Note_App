@@ -3,9 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/clearTagFilter"
+        android:icon="@drawable/ic_cancel"
+        android:title="Cancel"
+        app:showAsAction="always"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/app_bar_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+
+
 </menu>

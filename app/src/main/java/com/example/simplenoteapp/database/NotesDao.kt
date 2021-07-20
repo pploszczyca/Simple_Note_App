@@ -39,13 +39,21 @@ abstract class NotesDao {
 
     // DELETES
     @Delete
-    abstract fun delete(note: Note)
+    abstract fun deleteNote(note: Note)
+
+    fun delete(note: Note) {
+        deleteNoteTagsByNoteID(note.noteID)
+        deleteNote(note)
+    }
 
     @Delete
     abstract fun delete(tag: Tag)
 
     @Delete
     abstract fun delete(noteTag: NoteTag)
+
+    @Query("DELETE FROM noteTag WHERE noteID = :noteID")
+    abstract fun deleteNoteTagsByNoteID(noteID: Int)
 
     // UPDATES
     @Update

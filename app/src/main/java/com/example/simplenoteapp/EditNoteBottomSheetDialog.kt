@@ -13,10 +13,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.simplenoteapp.database.AppDatabase
-import com.example.simplenoteapp.database.Note
-import com.example.simplenoteapp.database.NoteTag
-import com.example.simplenoteapp.database.NotesDao
+import com.example.simplenoteapp.database.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -50,21 +47,27 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
 
         createNotificationChannel()
 
+        if(note!!.noteID == 0)      // hide delete, share, pin and tags options for new note
+            for(view in listOf(deleteButton!!, shareButton!!, pinButton!!, tagsChipGroup!!))
+                view.visibility = View.GONE
+
         deleteButton!!.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("DELETE")
             builder.setMessage("Do you want to delete this note?")
             builder.setPositiveButton("Delete") {
                     dialog, id ->
-                Toast.makeText(context, "Deleted note with title: ${note!!.title}", Toast.LENGTH_SHORT).show()
-                notesDao!!.delete(note!!)
-                activity?.finish()
+                        Toast.makeText(context, "Deleted note with title: ${note!!.title}", Toast.LENGTH_SHORT).show()
+                        notesDao!!.delete(note!!)
+                        activity?.finish()
+                        dismiss()
             }
             builder.setNegativeButton("No") {
                     dialog, id ->
+                        dismiss()
             }
+
             builder.show()
-            dismiss()
         }
 
         shareButton!!.setOnClickListener {
@@ -100,7 +103,7 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
             dismiss()
         }
 
-        val tags = notesDao!!.getNoteWithTags(noteID = note!!.noteID).first().tags.map { it.tagID }.toSet()
+        val tags = if (note!!.noteID != 0) notesDao!!.getNoteWithTags(noteID = note!!.noteID).first().tags.map { it.tagID }.toSet() else listOf<Tag>()
 
         for(tag in notesDao!!.getAllTags()) {
             val chip = Chip(context)

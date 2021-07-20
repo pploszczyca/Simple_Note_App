@@ -47,7 +47,6 @@ class EditNote : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.edit_note_menu, menu)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)       // set up back button in the menu
-        menu!!.findItem(R.id.editNoteShowBottomButton).isVisible = (note!!.noteID != 0)     // hide if the new note is being created
 
         return super.onCreateOptionsMenu(menu)
     }

@@ -4,4 +4,6 @@
     <string name="contents">Contents</string>
     <string name="save">Save</string>
     <string name="tags">Tags</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
