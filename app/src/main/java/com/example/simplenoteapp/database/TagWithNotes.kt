@@ -11,5 +11,5 @@ data class TagWithNotes(
         entityColumn = "noteID",
         associateBy = Junction(NoteTag::class)
     )
-    val tags: List<Note>
+    val notes: List<Note>
 )

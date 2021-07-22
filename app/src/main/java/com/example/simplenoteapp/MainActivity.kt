@@ -90,6 +90,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, INewT
         refreshListView()
     }
 
+    private fun setNewListOfNotesToNoteAdapter (listNoteWithTags: List<NoteWithTags>, isClearTagVisible: Boolean, titleString: String): Boolean {
+        noteAdapters!!.arrayList = listNoteWithTags
+        noteAdapters!!.notifyDataSetChanged()
+        clearTagFilterButton!!.isVisible = isClearTagVisible
+        toolbar.title = titleString
+        return true
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_activity_menu, menu)
         val searchMenuItem = menu!!.findItem(R.id.app_bar_search)
@@ -109,22 +117,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, INewT
         })
 
         clearTagFilterButton!!.setOnMenuItemClickListener {
-            noteAdapters!!.filter.filter("")
-            clearTagFilterButton!!.isVisible = false
-            toolbar.title = getString(R.string.app_name)
-            true
+            setNewListOfNotesToNoteAdapter(notesDao!!.getAllNotesWithTags(), false, getString(R.string.app_name))
         }
 
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun handleNewTag(tag: Tag) {
-        tagsSubMenu!!.add(tag.name).setOnMenuItemClickListener { menuItem ->
-            noteAdapters!!.filter.filter(menuItem.title)
-            clearTagFilterButton!!.isVisible = true
-            toolbar.title = tag.name
+        tagsSubMenu!!.add(tag.name).setOnMenuItemClickListener {
             drawerLayout.close()
-            true
+            setNewListOfNotesToNoteAdapter(notesDao!!.getNotesThatHaveSpecificTag(tag.tagID), true, tag.name)
         }.icon = ContextCompat.getDrawable(this, R.drawable.ic_label)
     }
 }

@@ -21,6 +21,10 @@ abstract class NotesDao {
     @Query("SELECT * FROM tags WHERE tagID = :tagID")
     abstract fun getTagWithNotes(tagID: Int): List<TagWithNotes>
 
+    @Transaction
+    @Query("SELECT * from notes INNER JOIN noteTag ON noteTag.noteID = notes.noteID WHERE tagID = :tagID ")
+    abstract fun getNotesThatHaveSpecificTag(tagID: Int): List<NoteWithTags>
+
     // INSERTS
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(vararg notes: Note)
