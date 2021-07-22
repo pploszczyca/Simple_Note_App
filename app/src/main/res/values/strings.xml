@@ -6,4 +6,9 @@
     <string name="tags">Tags</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="add_new_tag">Add new tag</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove">Remove</string>
+    <string name="remove_tag">Do you want to remove tag</string>
 </resources>

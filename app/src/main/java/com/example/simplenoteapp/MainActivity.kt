@@ -12,22 +12,19 @@ import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
-import com.example.simplenoteapp.database.AppDatabase
-import com.example.simplenoteapp.database.Note
-import com.example.simplenoteapp.database.NoteWithTags
-import com.example.simplenoteapp.database.NotesDao
+import com.example.simplenoteapp.database.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
-
+class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, INewTagListener {
     private var listView:ListView ? = null
     private var noteAdapters:NoteAdapters ? = null
     private var notesDao: NotesDao ? = null
     private var addNewNoteButton : FloatingActionButton ? = null
     private var navigationView: NavigationView ? = null
     private var clearTagFilterButton: MenuItem ? = null
+    private var tagsSubMenu: Menu ? = null
 
     private fun refreshListView() {
         noteAdapters = NoteAdapters(applicationContext, notesDao!!.getAllNotesWithTags())
@@ -42,16 +39,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun setUpNavigationView() {
-        val menu = navigationView!!.menu.findItem(R.id.tagsItem).subMenu
+        tagsSubMenu = navigationView!!.menu.findItem(R.id.tagsItem).subMenu
 
-        notesDao!!.getAllTags().forEach { tag ->
-            menu.add(tag.name).setOnMenuItemClickListener { menuItem ->
-                noteAdapters!!.filter.filter(menuItem.title)
-                clearTagFilterButton!!.isVisible = true
-                toolbar.title = tag.name
-                drawerLayout.close()
-                true
-        }.icon = ContextCompat.getDrawable(this, R.drawable.ic_label) }
+        notesDao!!.getAllTags().forEach { tag -> handleNewTag(tag) }
+
+        navigationView!!.menu.findItem(R.id.addNewTag).setOnMenuItemClickListener {
+            AddingNewTagDialog(this).show(supportFragmentManager, "Add new tag fragment")
+            true
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,5 +116,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         }
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun handleNewTag(tag: Tag) {
+        tagsSubMenu!!.add(tag.name).setOnMenuItemClickListener { menuItem ->
+            noteAdapters!!.filter.filter(menuItem.title)
+            clearTagFilterButton!!.isVisible = true
+            toolbar.title = tag.name
+            drawerLayout.close()
+            true
+        }.icon = ContextCompat.getDrawable(this, R.drawable.ic_label)
     }
 }

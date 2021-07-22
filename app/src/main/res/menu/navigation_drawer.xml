@@ -10,5 +10,9 @@
 
         </menu>
     </item>
+    <item
+        android:title="@string/add_new_tag"
+        android:id="@+id/addNewTag"
+        android:icon="@drawable/ic_add" />
 
 </menu>

@@ -52,22 +52,21 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
                 view.visibility = View.GONE
 
         deleteButton!!.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("DELETE")
-            builder.setMessage("Do you want to delete this note?")
-            builder.setPositiveButton("Delete") {
+            AlertDialog.Builder(context)
+                .setTitle("DELETE")
+                .setMessage("Do you want to delete this note?")
+                .setPositiveButton("Delete") {
                     dialog, id ->
                         Toast.makeText(context, "Deleted note with title: ${note!!.title}", Toast.LENGTH_SHORT).show()
                         notesDao!!.delete(note!!)
                         activity?.finish()
                         dismiss()
-            }
-            builder.setNegativeButton("No") {
+                }
+                .setNegativeButton("No") {
                     dialog, id ->
                         dismiss()
-            }
-
-            builder.show()
+                }
+                .show()
         }
 
         shareButton!!.setOnClickListener {
@@ -117,6 +116,22 @@ class EditNoteBottomSheetDialog: BottomSheetDialogFragment() {
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
                 val noteTag = NoteTag(noteID = note!!.noteID, tagID = tag.tagID)
                 if (isChecked) notesDao!!.insert(noteTag) else notesDao!!.delete(noteTag)
+            }
+
+            chip.setOnLongClickListener {
+                AlertDialog.Builder(context)
+                    .setTitle(getString(R.string.remove))
+                    .setMessage("${getString(R.string.remove_tag)}: ${chip.text}?")
+                    .setPositiveButton(R.string.remove) {
+                        dialog, id ->
+                            notesDao!!.delete(tag)
+                            dismiss()
+                    }
+                    .setNegativeButton(R.string.cancel) {
+                        dialog, id ->
+                    }
+                    .show()
+                true
             }
 
             tagsChipGroup!!.addView(chip)

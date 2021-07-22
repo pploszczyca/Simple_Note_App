@@ -38,6 +38,9 @@ abstract class NotesDao {
     }
 
     // DELETES
+    @Query("DELETE FROM noteTag WHERE noteID = :noteID")
+    abstract fun deleteNoteTagsByNoteID(noteID: Int)
+
     @Delete
     abstract fun deleteNote(note: Note)
 
@@ -47,13 +50,19 @@ abstract class NotesDao {
     }
 
     @Delete
-    abstract fun delete(tag: Tag)
+    abstract fun deleteTag(tag: Tag)
+
+    @Query("DELETE FROM noteTag WHERE tagID = :tagID")
+    abstract fun deleteNoteTagsByTagID(tagID: Int)
+
+    @Delete
+    fun delete(tag: Tag) {
+        deleteNoteTagsByTagID(tag.tagID)
+        deleteTag(tag)
+    }
 
     @Delete
     abstract fun delete(noteTag: NoteTag)
-
-    @Query("DELETE FROM noteTag WHERE noteID = :noteID")
-    abstract fun deleteNoteTagsByNoteID(noteID: Int)
 
     // UPDATES
     @Update
