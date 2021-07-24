@@ -43,7 +43,7 @@ class NoteAdapters(var context: Context, var arrayList: List<NoteWithTags>) :Bas
     override fun getFilter(): Filter = object :  Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val results = FilterResults()
-            results.values = if (constraint == null || constraint.isEmpty()) arrayListCopy else arrayListCopy.filter { noteWithTags -> noteWithTags.note.title.contains(constraint, ignoreCase = true) || noteWithTags.tags.map { it.name }.contains(constraint)}
+            results.values = if (constraint == null || constraint.isEmpty()) arrayListCopy else arrayListCopy.filter { noteWithTags -> noteWithTags.note.title.contains(constraint, ignoreCase = true)}
             results.count = arrayList.size
 
             return results

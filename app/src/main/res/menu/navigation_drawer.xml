@@ -15,4 +15,10 @@
         android:id="@+id/addNewTag"
         android:icon="@drawable/ic_add" />
 
+    <item
+        android:title="@string/edit_tags"
+        android:id="@+id/drawerEditTagsButton"
+        android:icon="@drawable/ic_edit"
+        />
+
 </menu>

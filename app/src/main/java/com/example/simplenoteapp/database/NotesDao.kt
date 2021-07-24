@@ -29,7 +29,7 @@ abstract class NotesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(vararg notes: Note)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(vararg tags: Tag)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

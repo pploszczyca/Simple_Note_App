@@ -3,15 +3,14 @@ package com.example.simplenoteapp
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.view.Menu
 import androidx.fragment.app.DialogFragment
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.Tag
 import com.google.android.material.textfield.TextInputLayout
 
 
-class AddingNewTagDialog(private val newTagListener: INewTagListener) : DialogFragment() {
-    private var textInput: TextInputLayout ? = null
+class AddingNewTagDialog(private val tagListener: ITagListener, private val tag: Tag = Tag()) : DialogFragment() {
+    private lateinit var textInput: TextInputLayout
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -22,12 +21,14 @@ class AddingNewTagDialog(private val newTagListener: INewTagListener) : DialogFr
 
         textInput = view.findViewById(R.id.addNewTagTextInput)
 
+        textInput.editText?.setText(tag.name)
+
         builder.setView(view)
             .setTitle(R.string.add_new_tag)
             .setPositiveButton(R.string.add) { _, _ ->
-                val tag = Tag(textInput!!.editText!!.text.toString())
-                newTagListener.handleNewTag(tag)
+                tag.name = textInput.editText!!.text.toString()
                 AppDatabase.getInstance(context).notesDao().insert(tag)
+                tagListener.handleNewTag(tag)
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }
 

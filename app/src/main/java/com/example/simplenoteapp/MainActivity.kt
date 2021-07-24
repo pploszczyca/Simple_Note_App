@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, INewTagListener {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagListener {
     private var listView:ListView ? = null
     private var noteAdapters:NoteAdapters ? = null
     private var notesDao: NotesDao ? = null
@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, INewT
 
         navigationView!!.menu.findItem(R.id.addNewTag).setOnMenuItemClickListener {
             AddingNewTagDialog(this).show(supportFragmentManager, "Add new tag fragment")
+            true
+        }
+
+        navigationView!!.menu.findItem(R.id.drawerEditTagsButton).setOnMenuItemClickListener {
+            startActivity(Intent(applicationContext, TagsEditActivity::class.java))
             true
         }
     }

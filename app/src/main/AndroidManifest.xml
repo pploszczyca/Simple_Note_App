@@ -9,8 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleNoteApp">
-        <activity android:name=".EditNote"></activity>
-        <activity android:name=".MainActivity" android:theme="@style/Theme.SimpleNoteApp.NoActionBar">
+        <activity
+            android:name=".TagsEditActivity"
+            android:theme="@style/Theme.SimpleNoteApp.NoActionBar" />
+        <activity android:name=".EditNote" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.SimpleNoteApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

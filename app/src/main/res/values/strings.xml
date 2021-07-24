@@ -11,4 +11,7 @@
     <string name="cancel">Cancel</string>
     <string name="remove">Remove</string>
     <string name="remove_tag">Do you want to remove tag</string>
+    <string name="edit">Edit</string>
+    <string name="edit_tags">Edit tags</string>
+    <string name="remove_tags">Do you want to remove these tags?</string>
 </resources>
