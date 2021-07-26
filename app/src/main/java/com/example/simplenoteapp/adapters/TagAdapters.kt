@@ -1,4 +1,4 @@
-package com.example.simplenoteapp
+package com.example.simplenoteapp.adapters
 
 import android.content.Context
 import android.view.View
@@ -6,7 +6,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
-import com.example.simplenoteapp.database.Tag
+import com.example.simplenoteapp.ITagListener
+import com.example.simplenoteapp.R
+import com.example.simplenoteapp.database.models.Tag
+import com.example.simplenoteapp.dialogs.AddingNewTagDialog
 import com.google.android.material.card.MaterialCardView
 
 class TagAdapters(var context: Context, var tagList: List<Tag>, private val tagListener: ITagListener, private val fragmentManager: FragmentManager): BaseAdapter() {

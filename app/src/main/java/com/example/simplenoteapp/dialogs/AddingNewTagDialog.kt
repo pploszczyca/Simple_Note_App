@@ -1,13 +1,14 @@
-package com.example.simplenoteapp
+package com.example.simplenoteapp.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.example.simplenoteapp.ITagListener
+import com.example.simplenoteapp.R
 import com.example.simplenoteapp.database.AppDatabase
-import com.example.simplenoteapp.database.Tag
+import com.example.simplenoteapp.database.models.Tag
 import com.google.android.material.textfield.TextInputLayout
-
 
 class AddingNewTagDialog(private val tagListener: ITagListener, private val tag: Tag = Tag()) : DialogFragment() {
     private lateinit var textInput: TextInputLayout

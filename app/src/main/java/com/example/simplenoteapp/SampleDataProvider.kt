@@ -1,8 +1,8 @@
 package com.example.simplenoteapp
 
-import com.example.simplenoteapp.database.Note
+import com.example.simplenoteapp.database.models.Note
 import com.example.simplenoteapp.database.NotesDao
-import com.example.simplenoteapp.database.Tag
+import com.example.simplenoteapp.database.models.Tag
 
 object SampleDataProvider {
     fun setSampleNotes(notesDao: NotesDao): Unit{

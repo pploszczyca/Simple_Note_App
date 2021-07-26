@@ -1,4 +1,4 @@
-package com.example.simplenoteapp
+package com.example.simplenoteapp.adapters
 
 import android.content.Context
 import android.view.View
@@ -7,8 +7,8 @@ import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import com.example.simplenoteapp.database.Note
-import com.example.simplenoteapp.database.NoteWithTags
+import com.example.simplenoteapp.R
+import com.example.simplenoteapp.database.support_models.NoteWithTags
 
 class NoteAdapters(var context: Context, var arrayList: List<NoteWithTags>) :BaseAdapter(), Filterable {
     private val arrayListCopy: List<NoteWithTags> = arrayList

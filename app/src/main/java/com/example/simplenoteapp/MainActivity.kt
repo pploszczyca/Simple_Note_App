@@ -12,23 +12,28 @@ import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import com.example.simplenoteapp.adapters.NoteAdapters
 import com.example.simplenoteapp.database.*
+import com.example.simplenoteapp.database.models.Note
+import com.example.simplenoteapp.database.models.Tag
+import com.example.simplenoteapp.database.support_models.NoteWithTags
+import com.example.simplenoteapp.dialogs.AddingNewTagDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagListener {
-    private var listView:ListView ? = null
-    private var noteAdapters:NoteAdapters ? = null
-    private var notesDao: NotesDao ? = null
-    private var addNewNoteButton : FloatingActionButton ? = null
-    private var navigationView: NavigationView ? = null
-    private var clearTagFilterButton: MenuItem ? = null
-    private var tagsSubMenu: Menu ? = null
+    private lateinit var listView: ListView
+    private lateinit var noteAdapters: NoteAdapters
+    private lateinit var notesDao: NotesDao
+    private lateinit var  addNewNoteButton : FloatingActionButton
+    private lateinit var  navigationView: NavigationView
+    private lateinit var  clearTagFilterButton: MenuItem
+    private lateinit var  tagsSubMenu: Menu
 
     private fun refreshListView() {
-        noteAdapters = NoteAdapters(applicationContext, notesDao!!.getAllNotesWithTags())
-        listView?.adapter = noteAdapters
+        noteAdapters = NoteAdapters(applicationContext, notesDao.getAllNotesWithTags())
+        listView.adapter = noteAdapters
     }
 
     private fun startEditNoteActivity(noteToPass: Note, view: View?) {
@@ -39,16 +44,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagL
     }
 
     private fun setUpNavigationView() {
-        tagsSubMenu = navigationView!!.menu.findItem(R.id.tagsItem).subMenu
+        tagsSubMenu = navigationView.menu.findItem(R.id.tagsItem).subMenu
 
-        notesDao!!.getAllTags().forEach { tag -> handleNewTag(tag) }
+        notesDao.getAllTags().forEach { tag -> handleNewTag(tag) }      // initialize existing tags
 
-        navigationView!!.menu.findItem(R.id.addNewTag).setOnMenuItemClickListener {
+        navigationView.menu.findItem(R.id.addNewTag).setOnMenuItemClickListener {
             AddingNewTagDialog(this).show(supportFragmentManager, "Add new tag fragment")
             true
         }
 
-        navigationView!!.menu.findItem(R.id.drawerEditTagsButton).setOnMenuItemClickListener {
+        navigationView.menu.findItem(R.id.drawerEditTagsButton).setOnMenuItemClickListener {
             startActivity(Intent(applicationContext, TagsEditActivity::class.java))
             true
         }
@@ -59,26 +64,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagL
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        navigationView = findViewById(R.id.navigationDrawerMenu)
+        listView = findViewById(R.id.notesList)
+        addNewNoteButton = findViewById(R.id.addNewNoteButton)
+        notesDao = AppDatabase.getInstance(applicationContext).notesDao()
+
         // For drawer navigation view
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close)
         toggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        navigationView = findViewById(R.id.navigationDrawerMenu)
-        notesDao = AppDatabase.getInstance(applicationContext).notesDao()
-
         //Providing sample data
-        SampleDataProvider.setSampleNotes(notesDao!!)
-        SampleDataProvider.setSampleTags(notesDao!!)
-
-        listView = findViewById(R.id.notesList)
-        addNewNoteButton = findViewById(R.id.addNewNoteButton)
+        SampleDataProvider.setSampleNotes(notesDao)
+        SampleDataProvider.setSampleTags(notesDao)
 
         refreshListView()
-        listView?.onItemClickListener = this
+        listView.onItemClickListener = this
 
-        addNewNoteButton!!.setOnClickListener {
+        addNewNoteButton.setOnClickListener {
             startEditNoteActivity(Note(), it)
         }
 
@@ -86,7 +90,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagL
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val noteWithTags = noteAdapters!!.getItem(position) as NoteWithTags
+        val noteWithTags = noteAdapters.getItem(position) as NoteWithTags
         startEditNoteActivity(noteWithTags.note, view)
     }
 
@@ -96,9 +100,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagL
     }
 
     private fun setNewListOfNotesToNoteAdapter (listNoteWithTags: List<NoteWithTags>, isClearTagVisible: Boolean, titleString: String): Boolean {
-        noteAdapters!!.arrayList = listNoteWithTags
-        noteAdapters!!.notifyDataSetChanged()
-        clearTagFilterButton!!.isVisible = isClearTagVisible
+        noteAdapters.arrayList = listNoteWithTags
+        noteAdapters.notifyDataSetChanged()
+        clearTagFilterButton.isVisible = isClearTagVisible
         toolbar.title = titleString
         return true
     }
@@ -111,27 +115,32 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, ITagL
         searchView.queryHint = "Search Here!"
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                noteAdapters!!.filter.filter(query)
+                noteAdapters.filter.filter(query)
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                noteAdapters!!.filter.filter(newText)
-                return true
-            }
+            override fun onQueryTextChange(newText: String?): Boolean = onQueryTextSubmit(newText)
         })
 
-        clearTagFilterButton!!.setOnMenuItemClickListener {
-            setNewListOfNotesToNoteAdapter(notesDao!!.getAllNotesWithTags(), false, getString(R.string.app_name))
+        clearTagFilterButton.setOnMenuItemClickListener {
+            setNewListOfNotesToNoteAdapter(notesDao.getAllNotesWithTags(), false, getString(R.string.app_name))
         }
 
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun handleNewTag(tag: Tag) {
-        tagsSubMenu!!.add(tag.name).setOnMenuItemClickListener {
+        tagsSubMenu.add(tag.name).setOnMenuItemClickListener {
             drawerLayout.close()
-            setNewListOfNotesToNoteAdapter(notesDao!!.getNotesThatHaveSpecificTag(tag.tagID), true, tag.name)
+            setNewListOfNotesToNoteAdapter(notesDao.getNotesThatHaveSpecificTag(tag.tagID), true, tag.name)
         }.icon = ContextCompat.getDrawable(this, R.drawable.ic_label)
+    }
+
+    override fun onBackPressed() {
+        when {
+            drawerLayout.isOpen -> drawerLayout.close()
+            clearTagFilterButton.isVisible -> setNewListOfNotesToNoteAdapter(notesDao.getAllNotesWithTags(), false, getString(R.string.app_name))
+            else -> super.onBackPressed()
+        }
     }
 }

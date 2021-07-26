@@ -1,6 +1,11 @@
 package com.example.simplenoteapp.database
 
 import androidx.room.*
+import com.example.simplenoteapp.database.models.Note
+import com.example.simplenoteapp.database.models.NoteTag
+import com.example.simplenoteapp.database.models.Tag
+import com.example.simplenoteapp.database.support_models.NoteWithTags
+import com.example.simplenoteapp.database.support_models.TagWithNotes
 
 @Dao
 abstract class NotesDao {

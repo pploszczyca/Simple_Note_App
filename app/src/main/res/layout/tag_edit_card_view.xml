@@ -8,7 +8,7 @@
     android:checkable="true"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
-    android:theme="@style/Theme.MaterialComponents.Light"
+    android:theme="@style/Theme.MaterialComponents.DayNight"
     app:cardElevation="1dp"
     android:id="@+id/tagCard">
 

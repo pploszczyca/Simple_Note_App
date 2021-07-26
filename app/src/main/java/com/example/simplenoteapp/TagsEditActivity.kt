@@ -7,9 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import com.example.simplenoteapp.adapters.TagAdapters
 import com.example.simplenoteapp.database.AppDatabase
 import com.example.simplenoteapp.database.NotesDao
-import com.example.simplenoteapp.database.Tag
+import com.example.simplenoteapp.database.models.Tag
+import com.example.simplenoteapp.dialogs.AddingNewTagDialog
 import kotlinx.android.synthetic.main.activity_tags_edit.*
 
 class TagsEditActivity : AppCompatActivity(), ITagListener {

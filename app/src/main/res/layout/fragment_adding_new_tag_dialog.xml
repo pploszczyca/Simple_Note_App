@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddingNewTagDialog"
+    tools:context=".dialogs.AddingNewTagDialog"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/addNewTagTextInput"
         android:layout_margin="8dp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -19,5 +20,4 @@
             android:inputType="textCapWords"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
 </LinearLayout>
