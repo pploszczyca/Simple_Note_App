@@ -10,6 +10,13 @@
         android:visible="false"/>
 
     <item
+        android:id="@+id/changeGridNumberButton"
+        android:icon="@drawable/ic_table_rows"
+        android:title="Grid Change"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/app_bar_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search"

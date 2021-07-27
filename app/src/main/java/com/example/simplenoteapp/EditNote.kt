@@ -34,7 +34,7 @@ class EditNote : AppCompatActivity() {
         editContents = findViewById(R.id.editNoteContents)
         mainLayout = findViewById(R.id.note_edit)
 
-        note = intent.getSerializableExtra("NOTE_ARGUMENT") as Note
+        note = intent.getSerializableExtra(NOTE_ARGUMENT) as Note
 
         notesDao = AppDatabase.getInstance(applicationContext).notesDao()
 
@@ -72,5 +72,9 @@ class EditNote : AppCompatActivity() {
     override fun onBackPressed() {
         saveNoteAndFinishActivity()
         super.onBackPressed()
+    }
+
+    companion object {
+        const val NOTE_ARGUMENT = "NOTE_ARGUMENT"
     }
 }
